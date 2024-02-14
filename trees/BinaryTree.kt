@@ -1,11 +1,5 @@
 package trees
 
-data class TreeNode(
-    val data: String,
-    var leftChild: TreeNode? = null,
-    var rightChild: TreeNode? = null
-)
-
 // TC and SC => O(n)
 fun preOrderTraversal(rootNode: TreeNode? = null) {
     if (rootNode == null) return
@@ -88,6 +82,85 @@ fun insertUsingLOT(rootNode: TreeNode? = null, newValue: String): Boolean {
     return false
 }
 
+// TC and SC => O(n)
+fun getDeepestNode(rootNode: TreeNode? = null): String? {
+    if (rootNode == null) return null
+    val queue = QueueLList()
+    queue.enqueue(rootNode)             // enqueue
+    var tempRoot: TreeNode? = null
+    while (!queue.isEmpty()) {          //  O(n)
+        tempRoot = queue.dequeue()
+        if (tempRoot?.leftChild != null) {
+            queue.enqueue(tempRoot.leftChild!!)
+        }
+        if (tempRoot?.rightChild != null) {
+            queue.enqueue(tempRoot.rightChild!!)
+        }
+    }
+    return tempRoot?.data // will return the last traversed node
+}
+
+// TC and SC => O(n)
+fun deleteDeepestNode(rootNode: TreeNode? = null, dNode: String?): String? {
+    if (rootNode == null) return "Tree is empty"
+    val queue = QueueLList()
+    queue.enqueue(rootNode)             // enqueue
+    while (!queue.isEmpty()) {          //  O(n)
+        val tempRoot = queue.dequeue()
+        if (tempRoot?.data == dNode) {
+            tempRoot?.data = null
+        }
+        if (tempRoot?.leftChild != null) {
+            if (tempRoot.leftChild?.data == dNode) {
+                tempRoot.leftChild = null
+                return "Deleted"
+            }
+            queue.enqueue(tempRoot.leftChild!!)
+        }
+        if (tempRoot?.rightChild != null) {
+            if (tempRoot.rightChild?.data == dNode) {
+                tempRoot.rightChild = null
+                return "Deleted"
+            }
+            queue.enqueue(tempRoot.rightChild!!)
+        }
+    }
+    return null
+}
+
+// TC and SC => O(n)
+fun deleteNode(rootNode: TreeNode? = null, node: String): String {
+    if (rootNode == null) return "Tree is empty"
+    val queue = QueueLList()
+    queue.enqueue(rootNode)             // enqueue
+    while (!queue.isEmpty()) {          //  O(n)
+        val tempRoot = queue.dequeue()
+        if (tempRoot?.data == node) {
+            val dNode = getDeepestNode(rootNode) // finding deepest node
+            if (dNode != null) {
+                tempRoot.data = dNode // replacing deepest node value with node to delete
+                deleteDeepestNode(rootNode, dNode) // delete deepest node
+                return "Node deleted successfully"
+            }
+        }
+        if (tempRoot?.leftChild != null) {
+            queue.enqueue(tempRoot.leftChild!!)
+        }
+        if (tempRoot?.rightChild != null) {
+            queue.enqueue(tempRoot.rightChild!!)
+        }
+    }
+    return "Not Found"
+}
+
+// TC and SC => O(1)
+fun deleteTree(rootNode: TreeNode?) {
+    rootNode?.data = null
+    rootNode?.leftChild = null
+    rootNode?.rightChild = null
+}
+
+
 fun main() {
     val rootNode = TreeNode("Drinks")
     val hotDrinkNode = TreeNode("Hot")
@@ -109,10 +182,14 @@ fun main() {
     println()
     println(searchUsingLOT(rootNode, "Tea"))
 
-    insertUsingLOT(rootNode,"Alcoholic")
-    insertUsingLOT(rootNode,"Non-Alcoholic")
+    insertUsingLOT(rootNode, "Alcoholic")
+    insertUsingLOT(rootNode, "Non-Alcoholic")
 
     println()
-    inOrderTraversal(rootNode)
+    levelOrderTraversal(rootNode)
 
+    deleteNode(rootNode, "Hot")
+    println()
+    levelOrderTraversal(rootNode)
+    deleteTree(rootNode)
 }
