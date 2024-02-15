@@ -1,7 +1,7 @@
 package trees
 
 // TC and SC => O(n)
-fun preOrderTraversal(rootNode: TreeNode? = null) {
+fun preOrderTraversal(rootNode: TreeNode?) {
     if (rootNode == null) return
     println(rootNode.data)
     preOrderTraversal(rootNode.leftChild)  // O(n/2)
@@ -9,7 +9,7 @@ fun preOrderTraversal(rootNode: TreeNode? = null) {
 }
 
 // TC and SC => O(n)
-fun inOrderTraversal(rootNode: TreeNode? = null) {
+fun inOrderTraversal(rootNode: TreeNode?) {
     if (rootNode == null) return
     inOrderTraversal(rootNode.leftChild)  // O(n/2)
     println(rootNode.data)
@@ -17,7 +17,7 @@ fun inOrderTraversal(rootNode: TreeNode? = null) {
 }
 
 // TC and SC => O(n)
-fun postOrderTraversal(rootNode: TreeNode? = null) {
+fun postOrderTraversal(rootNode: TreeNode?) {
     if (rootNode == null) return
     preOrderTraversal(rootNode.leftChild)  // O(n/2)
     preOrderTraversal(rootNode.rightChild) // O(n/2)
@@ -25,7 +25,7 @@ fun postOrderTraversal(rootNode: TreeNode? = null) {
 }
 
 // TC and SC => O(n)
-fun levelOrderTraversal(rootNode: TreeNode? = null) {
+fun levelOrderTraversal(rootNode: TreeNode?) {
     if (rootNode == null) return
     val queue = QueueLList()
     queue.enqueue(rootNode) // enqueue
@@ -42,7 +42,7 @@ fun levelOrderTraversal(rootNode: TreeNode? = null) {
 }
 
 // TC and SC => O(n)
-fun searchUsingLOT(rootNode: TreeNode? = null, value: String): String {
+fun searchUsingLOT(rootNode: TreeNode?, value: String): String {
     if (rootNode == null) return "Not Found"
     val queue = QueueLList()
     queue.enqueue(rootNode)             // enqueue
@@ -60,7 +60,7 @@ fun searchUsingLOT(rootNode: TreeNode? = null, value: String): String {
 }
 
 // TC and SC => O(n)
-fun insertUsingLOT(rootNode: TreeNode? = null, newValue: String): Boolean {
+fun insertUsingLOT(rootNode: TreeNode?, newValue: String): Boolean {
     if (rootNode == null) return false
     val queue = QueueLList()
     queue.enqueue(rootNode)             // enqueue
@@ -83,7 +83,7 @@ fun insertUsingLOT(rootNode: TreeNode? = null, newValue: String): Boolean {
 }
 
 // TC and SC => O(n)
-fun getDeepestNode(rootNode: TreeNode? = null): String? {
+fun getDeepestNode(rootNode: TreeNode?): String? {
     if (rootNode == null) return null
     val queue = QueueLList()
     queue.enqueue(rootNode)             // enqueue
@@ -101,7 +101,7 @@ fun getDeepestNode(rootNode: TreeNode? = null): String? {
 }
 
 // TC and SC => O(n)
-fun deleteDeepestNode(rootNode: TreeNode? = null, dNode: String?): String? {
+fun deleteDeepestNode(rootNode: TreeNode?, dNode: String?): String? {
     if (rootNode == null) return "Tree is empty"
     val queue = QueueLList()
     queue.enqueue(rootNode)             // enqueue
@@ -129,7 +129,7 @@ fun deleteDeepestNode(rootNode: TreeNode? = null, dNode: String?): String? {
 }
 
 // TC and SC => O(n)
-fun deleteNode(rootNode: TreeNode? = null, node: String): String {
+fun deleteNode(rootNode: TreeNode?, node: String): String {
     if (rootNode == null) return "Tree is empty"
     val queue = QueueLList()
     queue.enqueue(rootNode)             // enqueue
@@ -138,8 +138,8 @@ fun deleteNode(rootNode: TreeNode? = null, node: String): String {
         if (tempRoot?.data == node) {
             val dNode = getDeepestNode(rootNode) // finding deepest node
             if (dNode != null) {
-                tempRoot.data = dNode // replacing deepest node value with node to delete
                 deleteDeepestNode(rootNode, dNode) // delete deepest node
+                tempRoot.data = dNode // replacing deepest node value with node to delete
                 return "Node deleted successfully"
             }
         }

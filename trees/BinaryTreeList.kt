@@ -41,24 +41,24 @@ class BinaryTreeList(private val capacity: Int) {
     }
 
     // TC O(n) and SC O(1)
-    fun preOrderTraversal(index: Int = 0) {
-        if (lastIndex > capacity) return
+    fun preOrderTraversal(index: Int = 1) {
+        if (index >= capacity || list?.get(index) == null) return
         println(list?.get(index))
         preOrderTraversal(index * 2)
         preOrderTraversal(index * 2 + 1)
     }
 
     // TC O(n) and SC O(1)
-    fun inOrderTraversal(index: Int = 0) {
-        if (lastIndex > capacity) return
+    fun inOrderTraversal(index: Int = 1) {
+        if (index >= capacity || list?.get(index) == null) return
         inOrderTraversal(index * 2)
         println(list?.get(index))
         inOrderTraversal(index * 2 + 1)
     }
 
     // TC O(n) and SC O(1)
-    fun postOrderTraversal(index: Int = 0) {
-        if (lastIndex > capacity) return
+    fun postOrderTraversal(index: Int = 1) {
+        if (index >= capacity || list?.get(index) == null) return
         postOrderTraversal(index * 2)
         postOrderTraversal(index * 2 + 1)
         println(list?.get(index))
@@ -66,7 +66,7 @@ class BinaryTreeList(private val capacity: Int) {
 
     // TC O(n) and SC O(1)
     fun levelOrderTraversal() {
-        for (i in 1 until lastIndex) {
+        for (i in 1 until lastIndex+1) {
             println(list?.get(i))
         }
     }
@@ -86,12 +86,21 @@ fun main() {
     tree.insert("Coffee")
     tree.insert("Alcoholic")
     tree.insert("Non Alcoholic")
-
-    tree.search("Hot")
-    tree.delete("Hot")
-    tree.preOrderTraversal(1)
-    tree.inOrderTraversal(1)
-    tree.postOrderTraversal(1)
+    println("PreOrder")
+    tree.preOrderTraversal()
+    println("\nInOrder")
+    tree.inOrderTraversal()
+    println("\nPostOrder")
+    tree.postOrderTraversal()
+    println("\nLevelOrder")
     tree.levelOrderTraversal()
+
+    println()
+    println(tree.search("Hot"))
+    tree.delete("Hot")
+    println("\nLevelOrder")
+    tree.levelOrderTraversal()
+
     tree.deleteBT()
+
 }

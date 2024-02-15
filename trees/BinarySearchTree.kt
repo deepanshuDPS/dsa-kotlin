@@ -2,31 +2,31 @@ package trees
 
 
 // TC and SC => O(n)
-fun preOrderTraversalBST(rootNode: TreeNode? = null) {
+fun preOrderTraversalBST(rootNode: TreeNode?) {
     if (rootNode == null) return
-    println(rootNode.data)
-    preOrderTraversal(rootNode.leftChild)  // O(n/2)
-    preOrderTraversal(rootNode.rightChild) // O(n/2)
+    println(rootNode.value)
+    preOrderTraversalBST(rootNode.leftChild)  // O(n/2)
+    preOrderTraversalBST(rootNode.rightChild) // O(n/2)
 }
 
 // TC and SC => O(n)
-fun inOrderTraversalBST(rootNode: TreeNode? = null) {
+fun inOrderTraversalBST(rootNode: TreeNode?) {
     if (rootNode == null) return
-    inOrderTraversal(rootNode.leftChild)  // O(n/2)
-    println(rootNode.data)
-    inOrderTraversal(rootNode.rightChild) // O(n/2)
+    inOrderTraversalBST(rootNode.leftChild)  // O(n/2)
+    println(rootNode.value)
+    inOrderTraversalBST(rootNode.rightChild) // O(n/2)
 }
 
 // TC and SC => O(n)
-fun postOrderTraversalBST(rootNode: TreeNode? = null) {
+fun postOrderTraversalBST(rootNode: TreeNode?) {
     if (rootNode == null) return
-    preOrderTraversal(rootNode.leftChild)  // O(n/2)
-    preOrderTraversal(rootNode.rightChild) // O(n/2)
-    println(rootNode.data)
+    preOrderTraversalBST(rootNode.leftChild)  // O(n/2)
+    preOrderTraversalBST(rootNode.rightChild) // O(n/2)
+    println(rootNode.value)
 }
 
 // TC and SC => O(n)
-fun levelOrderTraversalBST(rootNode: TreeNode? = null) {
+fun levelOrderTraversalBST(rootNode: TreeNode?) {
     if (rootNode == null) return
     val queue = QueueLList()
     queue.enqueue(rootNode) // enqueue
@@ -59,25 +59,19 @@ fun searchBST(rootNode: TreeNode?, sValue: Int): String {
 }
 
 // TC and SC => O(logN)
-fun insertBST(rootNode: TreeNode?, newValue: Int): Boolean {
-    if (rootNode?.value == null) {
-        rootNode?.value = newValue
-        return true
+fun insertBST(rootNode: TreeNode?, newValue: Int): TreeNode {
+    if (rootNode == null) {
+        return TreeNode(value = newValue)
     }
-    return if (newValue <= (rootNode.value ?: -1)) {
-        if (rootNode.leftChild == null) {
-            rootNode.leftChild = TreeNode(value = newValue)
-        }
-        insertBST(rootNode.leftChild, newValue)
+    if (newValue <= (rootNode.value ?: -1)) {
+        rootNode.leftChild = insertBST(rootNode.leftChild, newValue)
     } else {
-        if (rootNode.rightChild == null) {
-            rootNode.rightChild = TreeNode(value = newValue)
-        }
-        insertBST(rootNode.rightChild, newValue)
+        rootNode.rightChild = insertBST(rootNode.rightChild, newValue)
     }
+    return rootNode
 }
 
-fun smallestNodeBST(rootNode: TreeNode?): TreeNode? {
+fun minValueNodeBST(rootNode: TreeNode?): TreeNode? {
     var tempRoot = rootNode
     while (tempRoot?.leftChild != null) {
         tempRoot = tempRoot.leftChild
@@ -106,12 +100,12 @@ fun deleteNodeBST(rootNode: TreeNode?, dValue: Int): TreeNode? {
             return temp
         }
 
-        val temp = smallestNodeBST(rootNode.rightChild)
+        val temp = minValueNodeBST(rootNode.rightChild)
         rootNode.value = temp?.value
         rootNode.rightChild = deleteNodeBST(rootNode.rightChild, temp?.value!!)
         return rootNode
     }
-    return null
+    return rootNode
 }
 
 // TC and SC => O(1)
@@ -123,8 +117,7 @@ fun deleteTreeBST(rootNode: TreeNode?) {
 
 
 fun main() {
-    val rootNode = TreeNode()
-    insertBST(rootNode, 70)
+    val rootNode = TreeNode(value = 70)
     insertBST(rootNode, 50)
     insertBST(rootNode, 90)
     insertBST(rootNode, 30)
@@ -132,7 +125,10 @@ fun main() {
     insertBST(rootNode, 80)
     insertBST(rootNode, 100)
     preOrderTraversalBST(rootNode)
-    searchBST(rootNode, 30)
-    deleteNodeBST(rootNode, 80)
+    println(searchBST(rootNode, 30))
+    println()
+    println(deleteNodeBST(rootNode, 70)?.value)
+    println()
+    preOrderTraversalBST(rootNode)
     deleteTreeBST(rootNode)
 }
