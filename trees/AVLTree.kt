@@ -127,28 +127,28 @@ fun deleteNodeAVL(rootNode: TreeNode?, dValue: Int): TreeNode? {
         rootNode.rightChild = deleteNodeAVL(rootNode.rightChild, temp?.value!!)
         // BST deletion is completed above
         // now init new heights
-        rootNode.height = 1 + max(getHeight(rootNode.leftChild), getHeight(rootNode.rightChild))
-        val balance = getBalance(rootNode)
-        if (balance > 1 && getBalance(rootNode.leftChild) >= 0) {
-            // Left-> (>1)  Left-> (value inserted at left) condition
-            return rightRotate(rootNode)
-        } else if (balance > 1 && getBalance(rootNode.leftChild) < 0) {
-            // Left-> (>1)  Right-> (value inserted at right) condition
-            rootNode.leftChild = leftRotate(rootNode.leftChild)
-            return rightRotate(rootNode)
-        }
-        if (balance < -1 && getBalance(rootNode.rightChild) <= 0) {
-            // Right-> (< -1)  Right-> (value inserted at right) condition
-            return leftRotate(rootNode)
-        }
-        if (balance < -1 && getBalance(rootNode.rightChild) > 0) {
-            // Right-> (< -1)  Left-> (value inserted at left) condition
-            rootNode.rightChild = rightRotate(rootNode.rightChild)
-            return leftRotate(rootNode)
-        }
-        return rootNode // no rotation
+        // no rotation
     }
-    return null
+    rootNode.height = 1 + max(getHeight(rootNode.leftChild), getHeight(rootNode.rightChild))
+    val balance = getBalance(rootNode)
+    if (balance > 1 && getBalance(rootNode.leftChild) >= 0) {
+        // Left-> (>1)  Left-> (value inserted at left) condition
+        return rightRotate(rootNode)
+    } else if (balance > 1 && getBalance(rootNode.leftChild) < 0) {
+        // Left-> (>1)  Right-> (value inserted at right) condition
+        rootNode.leftChild = leftRotate(rootNode.leftChild)
+        return rightRotate(rootNode)
+    }
+    if (balance < -1 && getBalance(rootNode.rightChild) <= 0) {
+        // Right-> (< -1)  Right-> (value inserted at right) condition
+        return leftRotate(rootNode)
+    }
+    if (balance < -1 && getBalance(rootNode.rightChild) > 0) {
+        // Right-> (< -1)  Left-> (value inserted at left) condition
+        rootNode.rightChild = rightRotate(rootNode.rightChild)
+        return leftRotate(rootNode)
+    }
+    return rootNode
 }
 
 // TC and SC => O(1)
@@ -196,9 +196,12 @@ fun leftRotate(disbalancedNode: TreeNode?): TreeNode? {
 }
 
 fun main() {
-    var rootNode = TreeNode(value = 5)
-    rootNode = insertAVL(rootNode, 10)!!
-    rootNode = insertAVL(rootNode, 15)!!
-    rootNode = insertAVL(rootNode, 20)!!
+    var rootNode: TreeNode? = TreeNode(value = 5)
+    rootNode = insertAVL(rootNode, 10)
+    rootNode = insertAVL(rootNode, 15)
+    rootNode = insertAVL(rootNode, 20)
     preOrderTraversalAVL(rootNode)
+    rootNode = deleteNodeAVL(rootNode, 20)
+    preOrderTraversalAVL(rootNode)
+    deleteTreeAVL(rootNode)
 }
