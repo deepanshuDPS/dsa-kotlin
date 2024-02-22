@@ -1,6 +1,5 @@
 package graphs
 
-class Path(val s: Char, val d: Char, val w: Int)
 
 class BellmanFordGraph(
     private val v: Int,
