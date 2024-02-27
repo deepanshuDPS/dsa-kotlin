@@ -3,8 +3,8 @@ package divNConqProblems
 
 fun numberFactors(n: Int): Int {
     return when (n) {
-        in arrayOf(0, 1, 2) -> 1 // {1}
-        3 -> 2 // {1,3}, {3,1}
+        in arrayOf(0, 1, 2) -> 1 // {1} // {1,1} // {1,1,1} // 1, 2, 3
+        3 -> 2 // {1,3}, {3,1} // 4
         else -> {
             numberFactors(n - 1) + numberFactors(n - 3) + numberFactors(n - 4)
         }
