@@ -1,10 +1,14 @@
 package linkedList
 
+import kotlin.math.sin
+import kotlin.math.sinh
+
 class SinglyLinkedList(data: Int? = null) {
 
     var head: Node? = null
     var tail: Node? = null
     var length: Int = 0
+
     // space and time complexity of init is O(1)
     init {
         if (data != null) {
@@ -51,11 +55,11 @@ class SinglyLinkedList(data: Int? = null) {
 
     // time complexity of get is O(n) and SC = O(1)
     fun get(index: Int): Node? {
-        if (index > length || index < 0) {
-            return null
-        } else if (tail == null) {
+        // index not in range or list is empty return null
+        if (index > length || index < 0 || length == 0) {
             return null
         }
+        // travel 0->index and return node
         var current = head
         var i = 0
         while (current != null) {
@@ -70,6 +74,8 @@ class SinglyLinkedList(data: Int? = null) {
 
     // time complexity of set is O(n) and SC = O(1)
     fun set(index: Int, data: Int): Boolean {
+        // travel 0->index and and change the data value of
+        // indexed node
         val node = get(index)
         if (node != null) {
             node.data = data
@@ -81,11 +87,15 @@ class SinglyLinkedList(data: Int? = null) {
 
     // space and time complexity of append is O(1)
     fun append(data: Int) {
+        // create a new node
         val newNode = Node(data)
-        if (head == null) {
+        if (length == 0) {
+            // if list is empty create head and tail
             head = newNode
             tail = newNode
         } else {
+            // else add new node to tail pointer
+            // and make that new node tail
             tail?.next = newNode
             tail = newNode
         }
@@ -108,13 +118,14 @@ class SinglyLinkedList(data: Int? = null) {
     //  time complexity of insert is O(n) and SC = O(1)
     fun insert(index: Int, data: Int) {
         val newNode = Node(data)
-        if (head == null) {
-            prepend(data)
-        } else if (index == 0) {
+        if (length == 0 || index == 0) {
+            // if no element in list or index ==0 then prepend
             prepend(data)
         } else if (index == length) {
+            // if last index of size append element
             append(data)
         } else {
+            // travel from 1->index and insert node to indexed next node
             var tempNode = head
             // start with 1 because 0 is covered by head
             var i = 1
@@ -134,7 +145,7 @@ class SinglyLinkedList(data: Int? = null) {
     //  time complexity of popFirst is O(1) and SC = O(1)
     fun popFirst(): Node? {
 
-        if (head == null) {
+        if (length == 0) {
             return null
         }
         val tempNode = head
@@ -152,36 +163,42 @@ class SinglyLinkedList(data: Int? = null) {
 
     //  time complexity of pop is O(n) and SC = O(1)
     fun pop(): Node? {
-        if (head == null) {
-            return null
-        } else if (length == 1) {
-            return popFirst()
-        } else {
-            val tempNode = tail
-            var current = head
-            while (current?.next != tail) {
-                current = current?.next
+        return when (length) {
+            0 -> null // if list is empty return null
+            1 -> popFirst() // if list  one element remove head and tail both
+            else -> {
+                // store tail to return
+                // traverse to node prev to tail and make them pointing tail
+                val tempNode = tail
+                var current = head
+                while (current?.next != tail) {
+                    current = current?.next
+                }
+                current?.next = null
+                tail = current
+                tempNode?.next = null
+                length--
+                tempNode
             }
-            current?.next = null
-            tail = current
-            tempNode?.next = null
-            length--
-            return tempNode
         }
     }
 
     //  time complexity of remove is O(n) and SC = O(1)
     fun remove(index: Int): Node? {
         if (index > length || index < 0) {
+            // if index not in range return null
             return null
         } else if (index == 0) {
+            // if first element popFirst()
             return popFirst()
         } else if (index == length - 1) {
+            // if last element pop()
             return pop()
         } else {
             var tempNode = head
             // start with 1 because 0 is covered by head
             var i = 1
+            // traverse from 1->index and remove indexed next node
             while (tempNode != null) {
                 if (i == index) {
                     val nodeRemoved = tempNode.next
@@ -223,6 +240,57 @@ class SinglyLinkedList(data: Int? = null) {
             val temp = head
             head = tail
             tail = temp
+        }
+    }
+
+    // rotate the linked list first elements by n to last
+    fun rotateBy(n: Int): String {
+        // if n greater then length
+        if (n > length || length == 0) return "Not Possible"
+        else if (n == length) {
+            return "Remains Same"
+        } else {
+            // rotating
+            var tempHead = head
+            // tail now points to head
+            tail?.next = head
+            // head node visited so 1 till n
+            for (i in 1 until n) {
+                tempHead = tempHead?.next
+            }
+            // new head will be next pointer of rotation index
+            head = tempHead?.next
+            // after that make indexed node tail
+            tempHead?.next = null
+            tail = tempHead
+        }
+        return "Success"
+    }
+
+    fun isPalindrome(): Boolean {
+        if (length == 0) return false
+        if (length == 1) return true
+        else {
+            var rev: Node? = head?.copy()
+            var prevNode: Node? = null
+            // reverse list and check till end is same or not
+            while (rev?.next != null) {
+                val nextNode = rev.next?.copy()
+                rev.next = prevNode
+                prevNode = rev
+                rev = nextNode
+            }
+            rev?.next = prevNode
+            var head2 = rev
+            var tHead1 = head
+            while (head2 != null || tHead1 != null) {
+                if (head2?.data != tHead1?.data) {
+                    return false
+                }
+                head2 = head2?.next
+                tHead1 = tHead1?.next
+            }
+            return true
         }
     }
 
@@ -271,8 +339,14 @@ fun main() {
     singlyLinkedList.append(3)
     println(singlyLinkedList)
     println(singlyLinkedList.remove(2)?.data)
+    singlyLinkedList.append(4)
     println(singlyLinkedList)
-    singlyLinkedList.reverse()
+    println(singlyLinkedList.rotateBy(1))
+    singlyLinkedList.set(2, 3)
+    singlyLinkedList.set(3, 1)
+    println(singlyLinkedList)
+    println(singlyLinkedList.isPalindrome())
+//    singlyLinkedList.reverse()
     println(singlyLinkedList)
     singlyLinkedList.deleteAll()
     println(singlyLinkedList)
