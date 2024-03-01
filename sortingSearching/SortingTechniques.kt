@@ -9,7 +9,9 @@ import kotlin.math.sqrt
 fun bubbleSort(list: Array<Int>) {
     list.shuffle()
     println("Before Bubble Sort: " + list.joinToString(","))
+    // checking elements one by one from 0->n-1
     for (i in 0 until list.size - 1) {
+        // if element is greater than next one than swap at that time
         for (j in 0 until list.size - i - 1) {
             if (list[j] > list[j + 1]) {
                 val temp = list[j]
@@ -25,6 +27,7 @@ fun bubbleSort(list: Array<Int>) {
 fun selectionSort(list: Array<Int>) {
     list.shuffle()
     println("Before Selection Sort: " + list.joinToString(","))
+    // checking elements one by one from 0->n-1
     for (i in 0 until list.size - 1) {
         var minIndex = i
         for (j in i + 1 until list.size) {
@@ -32,6 +35,7 @@ fun selectionSort(list: Array<Int>) {
                 minIndex = j
             }
         }
+        // swapping element only when found the lesser value than current element
         if (minIndex != i) {
             val temp = list[minIndex]
             list[minIndex] = list[i]
@@ -45,9 +49,12 @@ fun selectionSort(list: Array<Int>) {
 fun insertionSort(list: Array<Int>) {
     list.shuffle()
     println("Before Insertion Sort: " + list.joinToString(","))
+    // checking elements one by one from 1->n
     for (i in 1 until list.size) {
         val element = list[i]
         var j = i - 1
+        // shifting back current element if it's lesser than
+        // the front sorted list till j>0
         while (j >= 0 && element < list[j]) {
             list[j + 1] = list[j]
             j--
@@ -129,15 +136,20 @@ fun swap(list: Array<Int>, index1: Int, index2: Int) {
     list[index1] = list[index2]
     list[index2] = temp
 }
+
 // TC => O(n) and SC => O(1)
 fun pivot(list: Array<Int>, pivotIndex: Int, last: Int): Int {
     var swapIndex = pivotIndex
-    for (i in pivotIndex + 1 .. last) {
+    for (i in pivotIndex + 1..last) {
         if (list[i] < list[pivotIndex]) {
+            // swap index only shifts when the pivot element is greater
             swapIndex++
+            // and then swap with last element checks which is greater or equal
             swap(list, swapIndex, i)
         }
     }
+    // after dividing left or right  with higher or lesser value
+    // swap pivot to middle
     swap(list, swapIndex, pivotIndex)
     return swapIndex // new pivot
 }
@@ -153,10 +165,13 @@ fun quickSort(list: Array<Int>, left: Int, right: Int) {
     }
 }
 
-fun heapSort(){
+fun heapSort() {
     // insert the elements in min heap
     // extract using heapify
     // reverse the array will sort the list
+    //------------OR------------
+    // insert the elements in max heap
+    // extract using heapify
 }
 
 
