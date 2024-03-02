@@ -3,7 +3,7 @@ package graphs
 import java.util.Stack
 
 // directed graph
-class Graph() {
+class Graph {
     private val graphMap = mutableMapOf<Char, MutableList<Char>>()
     private val vertices = HashSet<Char>()
 

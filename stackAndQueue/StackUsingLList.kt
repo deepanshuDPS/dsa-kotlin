@@ -1,4 +1,4 @@
-package stack
+package stackAndQueue
 
 import linkedList.Node
 
@@ -11,10 +11,13 @@ class StackLList {
     // TC -> O(1) | SC -> O(1)
     fun push(data: Int) {
         val node = Node(data)
+        // if stack is null make new node as head
         if (head == null) {
             head = node
         } else {
+            // else add new node and point to head
             node.next = head
+            // after that make that head
             head = node
         }
         length++
@@ -25,9 +28,12 @@ class StackLList {
         return if (length == 0) {
             -1
         } else {
+            // to pop node store head to temp
             val temp = head
+            // make head = next of head
             head = head?.next
             length--
+            // remove pointer of popped node
             temp?.next = null
             temp?.data ?: -1
         }

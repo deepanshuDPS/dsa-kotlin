@@ -127,7 +127,6 @@ fun deleteNodeAVL(rootNode: TreeNode?, dValue: Int): TreeNode? {
         rootNode.rightChild = deleteNodeAVL(rootNode.rightChild, temp?.value!!)
         // BST deletion is completed above
         // now init new heights
-        // no rotation
     }
     rootNode.height = 1 + max(getHeight(rootNode.leftChild), getHeight(rootNode.rightChild))
     val balance = getBalance(rootNode)

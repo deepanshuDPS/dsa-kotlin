@@ -1,4 +1,4 @@
-package queue
+package stackAndQueue
 
 import linkedList.Node
 
@@ -12,6 +12,8 @@ class QueueLList {
     // TC -> O(1) | SC -> O(1)
     fun enqueue(data: Int) {
         val node = Node(data)
+        // add node to the end of linked list at the time of enqueue and
+        // make it tail
         if (head == null) {
             head = node
             tail = node
@@ -27,6 +29,8 @@ class QueueLList {
         return if (length == 0) {
             -1
         } else {
+            // dequeue the head from the linked list
+            // and make the next pointer to head
             val temp = head
             if (head == tail) {
                 tail = null

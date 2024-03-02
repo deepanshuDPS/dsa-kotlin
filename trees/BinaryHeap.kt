@@ -59,7 +59,7 @@ class BinaryHeap(private val capacity: Int, private val type: String) {
     // TC and SC => O(logN)
     private fun heapifyTreeInsert(index: Int) {
         val parentIndex = index / 2
-        if (index <= 1) return
+        if (index <= 1) return // reached to parent
         else if (type == "min") {
             if ((list?.get(index) ?: -1) < (list?.get(parentIndex) ?: -1)) {
                 val temp = list?.get(index)
@@ -123,7 +123,7 @@ class BinaryHeap(private val capacity: Int, private val type: String) {
                     list?.set(swapChild, temp)
                 }
             }
-            // if both children exist it means more children to check
+            // if both children exist it means more children to check through recursion
             heapifyTreeExtract(swapChild)
         }
     }
@@ -142,8 +142,11 @@ class BinaryHeap(private val capacity: Int, private val type: String) {
             println("Heap is empty")
             -1
         } else {
+            // first index will be extracted as node
             val extractedNode = list?.get(1)
-            list?.set(1, list?.get(heapSize)) // assign last element to top
+            // assign last element to top
+            list?.set(1, list?.get(heapSize))
+            // re-assign last node as null
             list?.set(heapSize, null) // remove last element
             heapSize--
             // heapifyTreeExtract
