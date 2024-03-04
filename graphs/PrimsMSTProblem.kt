@@ -5,7 +5,7 @@ class PrimsGraph(
 ) {
     private val vertices = edges.size
     private val mst = arrayListOf<Path>()
-    private val graph: ArrayList<Path> = arrayListOf()
+//    private val graph: ArrayList<Path> = arrayListOf()
     private val nodes: ArrayList<Char> = arrayListOf()
 
 

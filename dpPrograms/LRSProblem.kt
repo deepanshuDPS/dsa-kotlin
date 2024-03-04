@@ -2,8 +2,6 @@ package dpPrograms
 
 import java.lang.Integer.max
 
-var i = 0
-
 fun lrsTD(s: String, i1: Int, i2: Int, map: HashMap<String, Int>): Int? {
     val key = "$i1$i2"
     if (i1 == s.length || i2 == s.length) return 0 // no case to compare

@@ -38,6 +38,19 @@ fun removeDuplicatesUsingSameList(linkedList: SinglyLinkedList) {
     println(linkedList)
 }
 
+// TC O(n) and SC O(1)
+fun removeDuplicatesInSortedList(linkedList: SinglyLinkedList) {
+    var cTemp = linkedList.head
+    while (cTemp != null) {
+        // if the next node value is same
+        if (cTemp.next != null && cTemp.data == cTemp.next?.data) {
+            cTemp.next = cTemp.next?.next
+            continue // to check till next element as same or not
+        }
+        cTemp = cTemp.next
+    }
+}
+
 // 3 then ith = 2
 fun returnLastKthNode(linkedList: SinglyLinkedList, kth: Int): Node? {
 
@@ -149,6 +162,33 @@ fun intersectionNodeOfTwoList(list1: SinglyLinkedList, list2: SinglyLinkedList):
     return longerListNode
 }
 
+fun middleOfTheList(list: SinglyLinkedList): Node? {
+    return if (list.length == 0) null
+    else if (list.length == 1) list.head
+    else {
+        val middle = list.length / 2
+        var cTemp = list.head
+        for (i in 0 until middle) {
+            cTemp = cTemp?.next
+        }
+        cTemp
+    }
+}
+
+fun middleOfTheList2(list: SinglyLinkedList): Node? {
+    return if (list.length == 0) null
+    else if (list.length == 1) list.head
+    else {
+        var cTemp = list.head
+        var cTemp2 = list.head
+        while (cTemp2?.next != null) {
+            cTemp = cTemp?.next
+            cTemp2 = cTemp2.next?.next
+        }
+        return cTemp
+    }
+}
+
 fun main() {
     val linkedList = SinglyLinkedList()
     linkedList.append(3)
@@ -167,4 +207,23 @@ fun main() {
     println(returnLastKthNode(linkedList, 4)?.data)
     println(returnLastKthNode2(linkedList, 4)?.data)
     partitionAroundX(linkedList, 3)
+    println(middleOfTheList(linkedList)?.data)
+    println(middleOfTheList2(linkedList)?.data)
+    val sortedLL = SinglyLinkedList()
+
+    sortedLL.append(1)
+    sortedLL.append(1)
+    sortedLL.append(5)
+    sortedLL.append(13)
+    sortedLL.append(13)
+    sortedLL.append(13)
+    sortedLL.append(14)
+    sortedLL.append(15)
+    sortedLL.append(16)
+    sortedLL.append(20)
+    sortedLL.append(20)
+    println(sortedLL)
+    removeDuplicatesInSortedList(sortedLL)
+    println(sortedLL)
+
 }
